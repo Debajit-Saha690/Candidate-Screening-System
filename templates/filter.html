@@ -1,153 +1,145 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Filter & Rank Candidates</title>
+    <title>Filter Candidates</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #e0f2f1, #b2dfdb);
-            text-align: center;
             margin: 0;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #e2e8f0;
+            text-align: center;
         }
 
         .header {
-            background: #00796b;
+            background: #1e3a8a;
             color: white;
-            padding: 20px;
+            padding: 22px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
         }
 
         .form-box {
-            width: 460px;
-            max-width: 90%;
-            margin: 30px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            width: 520px;
+            max-width: 92%;
+            margin: 35px auto;
+            background: rgba(30, 41, 59, 0.9);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #334155;
+            backdrop-filter: blur(6px);
+            transition: 0.3s;
         }
 
-        input, select, button {
-            padding: 10px;
-            margin: 8px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            width: 90%;
+        .form-box:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        }
+
+        h2 {
+            color: #38bdf8;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            color: #93c5fd;
+            margin-top: 18px;
+            text-align: left;
+        }
+
+        input, select {
+            padding: 11px;
+            margin: 8px 0;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            width: 95%;
+            background: #0f172a;
+            color: #e2e8f0;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border: 1px solid #38bdf8;
+            box-shadow: 0 0 8px rgba(56,189,248,0.4);
         }
 
         button {
-            background: #009688;
+            width: 98%;
+            padding: 13px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
             color: white;
             font-weight: bold;
             cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
         }
 
         button:hover {
-            background: #004d40;
-        }
-
-        .candidate {
-            border: 2px solid #004d40;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 15px auto;
-            width: 430px;
-            max-width: 90%;
-            background: #f4fffd;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            text-align: left;
-        }
-
-        .report {
-            width: 430px;
-            max-width: 90%;
-            margin: 20px auto;
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            text-align: left;
-        }
-
-        .no-result {
-            font-weight: bold;
-            color: #004d40;
-            margin-top: 20px;
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(37,99,235,0.4);
         }
 
         a {
             display: inline-block;
-            margin: 20px 0 30px;
+            margin: 25px;
             text-decoration: none;
             font-weight: bold;
-            color: #004d40;
+            color: #38bdf8;
         }
+
+        .note {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
     </style>
 </head>
+
 <body>
 
-    <div class="header">
-        <h1>Resume Screening System</h1>
-    </div>
+<div class="header">
+    <h1>Candidate Screening System</h1>
+</div>
 
-    <div class="form-box">
-        <h2>Filter & Rank Candidates</h2>
+<div class="form-box">
+    <h2>Filter Candidates</h2>
 
-        <form method="POST" id="filterForm">
-            <input type="number" step="0.01" name="min_class10" placeholder="Minimum Class 10 %" required><br>
-            <input type="number" step="0.01" name="min_class12" placeholder="Minimum Class 12 %" required><br>
-            <input type="number" step="0.01" name="min_cgpa" placeholder="Minimum CGPA" required><br>
-            <input type="number" name="min_projects" placeholder="Minimum Projects" required><br>
-            <input type="number" name="min_hackathons" placeholder="Minimum Hackathons Participated" required><br>
+    <form method="POST" action="/filter">
 
-            <select name="winner_required" required>
-                <option value="no">Winner Not Required</option>
-                <option value="yes">Must Be Hackathon Winner</option>
-            </select><br>
+        <h4>Academic Criteria</h4>
+        <input type="number" step="0.01" name="min_class10" placeholder="Mininum Class 10 %" required>
+        <input type="number" step="0.01" name="min_class12" placeholder="Mininum Class 12 %" required>
+        <input type="number" step="0.01" name="min_cgpa" placeholder="Minimum CGPA" required>
 
-            <input type="number" step="0.01" name="min_coding_score" placeholder="Minimum Coding Average Score" required><br>
-            <input type="text" id="skills" name="skills" placeholder="Required Skills (comma separated)" required><br>
-            <input type="text" name="min_exp" placeholder="Minimum Experience (e.g. 2 years or NA)" required><br>
-            <button type="submit">Filter Candidates</button>
-        </form>
-    </div>
+        <h4>Skill & Experience Criteria</h4>
+        <input type="number" name="min_projects" placeholder="Mininum Projects" required>
 
-    {% if selected is not none %}
-        {% if selected %}
-            <h3>Shortlisted Candidates (Ranked)</h3>
+        <input type="number" name="min_hackathons" placeholder="Minimum Hackathons" required>
+        <select name="winner_required" required>
+            <option value="no">Hackathon Winner Not Required</option>
+            <option value="yes">Must Be Hackathon Winner</option>
+        </select>
 
-            {% for c in selected %}
-                <div class="candidate">
-                    <b>Rank:</b> {{ loop.index }}<br>
-                    <b>Name:</b> {{ c.name }}<br>
-                    <b>Class 10:</b> {{ c.class10 }}%<br>
-                    <b>Class 12:</b> {{ c.class12 }}%<br>
-                    <b>CGPA:</b> {{ c.cgpa }}<br>
-                    <b>Projects:</b> {{ c.projects }}<br>
-                    <b>Hackathons Participated:</b> {{ c.hackathons_count }}<br>
-                    <b>Highest Position:</b> {{ c.hackathon_position | title }}<br>
-                    <b>LeetCode Score:</b> {{ c.leetcode }}<br>
-                    <b>CodeChef Score:</b> {{ c.codechef }}<br>
-                    <b>HackerRank Score:</b> {{ c.hackerrank }}<br>
-                    <b>Coding Average:</b> {{ c.coding_avg }}<br>
-                    <b>Skills:</b> {{ c.skills | map('title') | join(", ") }}<br>
-                    <b>Experience:</b> {{ c.experience_input }}
-                </div>
-            {% endfor %}
-        {% else %}
-            <p class="no-result">No Candidates Matched the Given Criteria.</p>
-        {% endif %}
-    {% endif %}
-
-    {% if report %}
-        <div class="report">
-            <h3>Screening Report</h3>
-            <p><b>Total Applications:</b> {{ report.total }}</p>
-            <p><b>Selected:</b> {{ report.selected }}</p>
-            <p><b>Rejected:</b> {{ report.rejected }}</p>
-        </div>
-    {% endif %}
-
-    <a href="/">⬅ Back to Home</a>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <input type="number" step="0.01" name="min_coding_score" placeholder="Mininum Coding Score" required>
+        <input type="text" name="skills" placeholder="Required Skills (e.g. python, sql)" required>
+        <input type="text" name="min_exp" placeholder="Mininum Experience (e.g. 2 years / NA)" required>
+        
+        <h4>Target Hiring Tier</h4>
+        <select name="company_level" required>
+            <option value="" disabled selected>Select Company Tier</option>
+            <option value="easy">Service-Based Companies (e.g., TCS, Wipro, Infosys)</option>
+            <option value="medium">Mid-Level Product Companies (e.g., Capgemini, Cognizant)</option>
+            <option value="hard">Product-Based Companies(e.g., Google, Microsoft, Amazon)</option>
+        </select>
+        
+        <button type="submit">Filter Candidates</button>
+    </form>
+    <a href="/">⬅ Back to Dashboard</a>
+</div>
 </body>
 </html>
