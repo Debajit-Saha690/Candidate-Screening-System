@@ -1,65 +1,3 @@
-<<<<<<< HEAD
-# Resume Screening System
-
-A Flask-based web application to manage and screen candidate resumes using structured filtering and ranking logic.
-
-
-## 🚀 Features
-
-- Add Candidate Profiles
-- View All Candidates
-- Search by ID or Name
-- Filter and Rank Candidates
-- Coding Average Calculation
-- Screening Report (Total Number of Selected and Rejected Candidates)
-
-
-## 🛠️ Tech Stack
-
-- Python (Flask)
-- HTML, CSS, JavaScript
-- JSON (Data Storage)
-
-
-## 🎯 Use Case
-
-Simulates a basic recruiter workflow to shortlist candidates based on:
-- Academic performance
-- Number of Projects and hackathons
-- Coding platform scores
-- Skills matching
-- Experience 
-
-
-## ▶️ How to Run
-
-1. Install dependencies:
-- pip install flask
-
-2. Run the web app:
-- python resume_webapp.py
-
-
-## 📸 Screenshots
-
-### 🏠 Home Page
-![Home](home.png)
-
-### ➕ Add Candidate
-![Add](add.png)
-
-### 📊 View Candidates
-![View](view.png)
-
-### 🔍 Search Candidate
-![Search](search.png)
-
-### ⚙️ Filter & Rank
-![Filter](filter.png)
-
-### 🏆 Ranking Output
-![Rank](Rank.png)
-=======
 # Candidate Screening & Ranking System
 
 A web-based mini **Applicant Tracking System (ATS)** built using Flask and MySQL that evaluates, filters, and ranks candidates based on multiple performance metrics.
@@ -192,4 +130,3 @@ Ranked list of top-performing candidates generated using a weighted scoring syst
 ### Pie Chart
 Visual representation of selection vs rejection ratio using dynamic chart-based analytics for quick decision insights.
 ![Pie_Chart](static/images/Pie_Chart.png)
->>>>>>> 74f1c16c4703ab80f0b8aa35381b5d896b200e25
