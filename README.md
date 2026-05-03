@@ -1,4 +1,4 @@
-# Candidate-Screening-System
+# Candidate Screening & Ranking System
 
 A web-based mini **Applicant Tracking System (ATS)** built using Flask and MySQL that evaluates, filters, and ranks candidates based on multiple performance metrics.
 
