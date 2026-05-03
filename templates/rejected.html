@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rejected Candidates</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #e2e8f0;
+            text-align: center;
+        }
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 22px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+        }
+
+        .report {
+            width: 520px;
+            max-width: 92%;
+            margin: 25px auto;
+            background: rgba(30, 41, 59, 0.9);
+            padding: 18px;
+            border-radius: 14px;
+            text-align: left;
+            border: 1px solid #334155;
+        }
+
+        .card {
+            width: 520px;
+            max-width: 92%;
+            margin: 16px auto;
+            background: rgba(30, 41, 59, 0.9);
+            padding: 18px;
+            border-radius: 14px;
+            text-align: left;
+            border: 1px solid #334155;
+            opacity: 0.9;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #ef4444;
+        }
+
+        .rejected {
+            border-left: 6px solid #ef4444;
+        }
+
+        h2 { color: #f87171; }
+
+        .info {
+            font-size: 13px;
+            color: #cbd5e1;
+            margin-top: 10px;
+        }
+
+        a {
+            display: inline-block;
+            margin: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .back-home {
+            display: block;
+            width: fit-content;
+            margin: 30px auto;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s ease;
+            text-align: center;
+        }
+
+        .back-home:hover {
+            background: #38bdf8;
+            color: #0f172a;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(56,189,248,0.4);
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Rejected Candidates</h1>
+</div>
+
+<!-- REPORT -->
+<div class="report">
+    <p><b>Total Rejected:</b> {{ report.rejected }}</p>
+</div>
+
+<!-- REJECTED -->
+<h2>Rejected Candidates</h2>
+
+{% for c in rejected %}
+<div class="card rejected">
+    <b>Rank:</b> {{ c.rank }}<br>
+    <hr>
+    <b>Name:</b> {{ c.name }}<br>
+    <hr>
+    <b>Score:</b> {{ c.score }}<br>
+    <hr>
+    <b>Reason:</b><br>
+    {{ c.reason }}
+
+    <hr>
+
+    <div class="info">
+        <b>Score Breakdown:</b><br>
+        Academic: {{ c.breakdown.academic }}<br>
+        Coding: {{ c.breakdown.coding }}<br>
+        Projects: {{ c.breakdown.projects }}<br>
+        Hackathons: {{ c.breakdown.hackathons }}<br>
+        Experience: {{ c.breakdown.experience }}<br>
+    </div>
+</div>
+{% endfor %}
+
+<a href="/filter_result" class="back-home">⬅ Back to Results</a>
+
+</body>
+</html>

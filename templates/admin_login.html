@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Login - Candidate Screening System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f172a; 
+            color: #e2e8f0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* LOGIN CARD */
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #334155;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            text-align: center;
+            padding: 70px 20px 30px;
+            background: linear-gradient(135deg, #1e3a8a, #0f172a);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 12px 30px rgba(37,99,235,0.4);
+        }
+        
+        /* TITLE */
+        .title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        /* INPUT STYLE */
+        .input-box {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #e2e8f0;
+            outline: none;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .input-box:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 10px rgba(37,99,235,0.4);
+            transform: scale(1.02);
+        }
+
+         /* BUTTON */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+        }
+
+        .btn:hover {
+            background: #2563eb;
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(37,99,235,0.4);
+        }
+
+         /* FOOTER TEXT */
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>Candidate Screening & Ranking System</h1>
+        <p>A web-based mini Applicant Tracking System (ATS) for evaluating and ranking candidates based on performance metrics</p>
+    </div>
+    
+    <div class="container">
+
+        <div class="badge">ADMIN ACCESS ONLY</div>
+        <div class="title">Admin Portal</div>
+
+        <form method="POST">
+            <input class="input-box" type="text" name="username" placeholder="Enter Username" required>
+            <input class="input-box" type="password" name="password" placeholder="Enter Password" required>
+            <button class="btn" type="submit">Login</button>
+        </form>
+
+        <div class="footer">
+            Secure login for authorized recruiters only
+        </div>
+    </div>
+    <div class="back-home">
+        <a href="/">⬅ Back to Dashboard</a>
+    </div>
+</body>
+</html>

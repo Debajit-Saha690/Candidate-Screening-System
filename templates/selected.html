@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Selected Candidates</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #e2e8f0;
+            text-align: center;
+        }
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 22px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+        }
+
+        .report {
+            width: 520px;
+            max-width: 92%;
+            margin: 25px auto;
+            background: rgba(30, 41, 59, 0.9);
+            padding: 18px;
+            border-radius: 14px;
+            text-align: left;
+            border: 1px solid #334155;
+        }
+
+        .card {
+            width: 520px;
+            max-width: 92%;
+            margin: 16px auto;
+            background: rgba(30, 41, 59, 0.9);
+            padding: 18px;
+            border-radius: 14px;
+            text-align: left;
+            border: 1px solid #334155;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #38bdf8;
+        }
+
+        .selected {
+            border-left: 6px solid #22c55e;
+        }
+
+        h2 { color: #38bdf8; }
+
+        .info {
+            font-size: 13px;
+            color: #cbd5e1;
+            margin-top: 10px;
+        }
+
+        a {
+            display: inline-block;
+            margin: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .back-home {
+            display: block;
+            width: fit-content;
+            margin: 30px auto;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s ease;
+            text-align: center;
+        }
+
+        .back-home:hover {
+            background: #38bdf8;
+            color: #0f172a;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(56,189,248,0.4);
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Selected Candidates</h1>
+</div>
+
+<!-- REPORT -->
+<div class="report">
+    <p><b>Total Selected:</b> {{ report.selected }}</p>
+</div>
+
+<!-- SELECTED -->
+<h2>All Selected Candidates</h2>
+
+{% for c in selected %}
+<div class="card selected {% if loop.index == 1 %}top{% endif %}">
+    <b>Rank:</b> {{ c.rank }}<br>
+
+    <span style="
+        margin-left:10px;
+        padding:3px 8px;
+        border-radius:12px;
+        font-size:12px;
+        font-weight:bold;
+        background:#facc15;
+        color:#0f172a;
+    ">
+        {{ c.badge }}
+    </span>
+
+    <hr>
+    <b>Name:</b> {{ c.name }}<br>
+    <hr>
+    <b>Coding Avg:</b> {{ c.coding_avg }}<br>
+    <b>Skill Matches:</b> {{ c.skill_match }}<br>
+    <hr>
+
+    <b>Final Score:</b> <span style="color:#38bdf8; font-weight:bold;">
+        {{ c.score }}
+    </span>
+
+    <hr>
+    <b>Tags:</b> {{ c.tags | join(", ") }}<br>
+    <hr>
+
+    <b style="color:#22c55e;">Selection Reason:</b><br>
+    {{ c.reason }}
+
+    <hr>
+
+    <div class="info">
+        <b>Score Breakdown:</b><br>
+        Academic: {{ c.breakdown.academic }}<br>
+        Coding: {{ c.breakdown.coding }}<br>
+        Projects: {{ c.breakdown.projects }}<br>
+        Hackathons: {{ c.breakdown.hackathons }}<br>
+        Experience: {{ c.breakdown.experience }}<br>
+    </div>
+</div>
+{% endfor %}
+
+<a href="/filter_result" class="back-home">⬅ Back to Results</a>
+
+</body>
+</html>
