@@ -1,148 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>View Candidates</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #e2e8f0;
-            text-align: center;
-        }
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        .header {
-            background: #1e3a8a;
-            color: white;
-            padding: 22px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
-        }
-
-        h2 {
-            color: #38bdf8;
-            margin-top: 30px;
-        }
-
-        .container {
-            margin-top: 20px;
-            padding-bottom: 40px;
-        }
-
-        .candidate {
-            border: 1px solid #334155;
-            border-radius: 14px;
-            padding: 18px;
-            margin: 16px auto;
-            width: 520px;
-            max-width: 92%;
-            background: rgba(30, 41, 59, 0.9);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            text-align: left;
-            transition: 0.3s;
-        }
-
-        .candidate:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 28px rgba(56,189,248,0.2);
-            border-color: #38bdf8;
-        }
-
-        .rank {
-            font-size: 14px;
-            color: #38bdf8;
-            font-weight: bold;
-        }
-
-        .name {
-            font-size: 18px;
-            font-weight: bold;
-            color: #f8fafc;
-            margin-top: 5px;
-        }
-
-        .score {
-            float: right;
-            background: #38bdf8;
-            color: #0f172a;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .details {
-            margin-top: 10px;
-            font-size: 13px;
-            color: #cbd5e1;
-            line-height: 1.6;
-        }
-
-        .no-data {
-            margin-top: 40px;
-            font-weight: bold;
-            color: #94a3b8;
-        }
-
-        a {
-            display: inline-block;
-            margin: 25px;
-            color: #38bdf8;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-    </style>
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
+    <!-- HEADER -->
     <div class="header">
         <h1>Candidate Screening & Ranking System</h1>
+        <p>All Candidates</p>
     </div>
 
-    <h2>All Candidates</h2>
+    <div class="hero">
+        <h2>📋 Candidate List</h2>
+    </div>
 
     {% if candidates %}
         {% for c in candidates %}
             <div class="candidate">
-                <b>ID:</b> {{ c.id }}<br>
-                <hr>
-                <b>Name:</b> {{ c.name }}<br>
-                <hr>
-                <b>Class 10th %:</b> {{ c.class10 }}<br>
-                <b>Class 12th %:</b> {{ c.class12 }}<br>
-                <b>CGPA:</b> {{ c.cgpa }}<br>
-                <hr>
-                <b>Projects:</b> {{ c.projects }}<br>
-                <b>Hackathons Participated:</b> {{ c.hackathons_count }}<br>
-                <b>Highest Position:</b> {{ c.hackathon_position | title }}<br>
-                <hr>
-                <b>LeetCode Score:</b> {{ c.leetcode }}<br>
-                <b>CodeChef Score:</b> {{ c.codechef }}<br>
-                <b>HackerRank Score:</b> {{ c.hackerrank }}<br>
-                <hr>
-                <b>Coding Average:</b> {{ c.coding_avg }}<br>
-                <hr>
-                <b>Skills:</b> {{ c.skills | map('title') | join(", ") }}<br>
-                <b>Experience:</b> {{ c.experience_input }}<br>
-                <hr>
-                <b>Score Breakdown:</b><br>
+
+                <span class="badge">ID: {{ c.id }}</span>
+
+                <h2>{{ c.name }}</h2>
+
+                <p><b>🎓 Academics</b><br>
+                Class 10: {{ c.class10 }}%<br>
+                Class 12: {{ c.class12 }}%<br>
+                CGPA: {{ c.cgpa }}</p>
+
+                <p><b>💻 Projects & Hackathons</b><br>
+                Projects: {{ c.projects }}<br>
+                Hackathons: {{ c.hackathons_count }}<br>
+                Position: {{ c.hackathon_position | title }}</p>
+
+                <p><b>🏆 Coding Profiles</b><br>
+                LeetCode: {{ c.leetcode }}<br>
+                CodeChef: {{ c.codechef }}<br>
+                HackerRank: {{ c.hackerrank }}<br>
+                Average: {{ c.coding_avg }}</p>
+
+                <p><b>🧠 Skills & Experience</b><br>
+                Skills: {{ c.skills | map('title') | join(", ") }}<br>
+                Experience: {{ c.experience_input }}</p>
+
+                <p><b>📊 Score Breakdown</b><br>
                 Academic: {{ c.breakdown.academic }}<br>
                 Coding: {{ c.breakdown.coding }}<br>
                 Projects: {{ c.breakdown.projects }}<br>
                 Hackathons: {{ c.breakdown.hackathons }}<br>
-                Experience: {{ c.breakdown.experience }}<br>
-                <hr>
-                <p><b>Placement Score:</b> {{ c.score }}</p>
+                Experience: {{ c.breakdown.experience }}</p>
+
+                <h3>⭐ Placement Score: {{ c.score }}</h3>
+
             </div>
         {% endfor %}
     {% else %}
-        <p class="no-data">No Candidates Available</p>
+        <div class="container">
+            <p class="no-data">No Candidates Available</p>
+        </div>
     {% endif %}
 
-    <a href="/">⬅ Back to Dashboard</a>
+    <!-- BACK BUTTON -->
+    <a href="/" class="back-home">⬅ Back to Dashboard</a>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
