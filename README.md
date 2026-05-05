@@ -119,7 +119,7 @@ Custom filtering interface allowing recruiters to set minimum eligibility criter
 ---
 
 ### Filter Result Page
-Final screening output showing selected and rejected candidates based on applied filtering criteria, along with scoring breakdown and ranking system.
+Final screening output showing selected and rejected candidates based on applied filtering criteria and ranking system.
 ![Filter_Rank1](static/images/Filter_Rank1.png)
 Ranked list of top-performing candidates generated using a weighted scoring system based on academics, coding performance, projects, and experience.
 ![Filter_Rank2](static/images/Filter_Rank2.png)
@@ -127,6 +127,6 @@ Ranked list of top-performing candidates generated using a weighted scoring syst
 
 ---
 
-### Pie Chart
+### Bar Graph
 Visual representation of selection vs rejection ratio using dynamic chart-based analytics for quick decision insights.
-![Pie_Chart](static/images/Pie_Chart.png)
+![Bar_Graph](static/images/Bar_Graph.png)
