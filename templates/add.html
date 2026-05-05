@@ -1,172 +1,83 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Add Candidate</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #e2e8f0;
-            min-height: 100vh;
-            text-align: center;
-        }
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        .header {
-            background: #1e3a8a;
-            color: white;
-            padding: 22px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
-        }
-
-        .container {
-            margin-top: 40px;
-        }
-
-        .form-box {
-            width: 520px;
-            max-width: 92%;
-            margin: auto;
-            background: rgba(30, 41, 59, 0.9);
-            padding: 28px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            backdrop-filter: blur(8px);
-            transition: 0.3s;
-            border: 1px solid #334155;
-        }
-
-        .form-box:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-        }
-
-        h2 {
-            color: #38bdf8;
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            text-align: left;
-            font-weight: bold;
-            margin-top: 18px;
-            color: #93c5fd;
-            font-size: 13px;
-            letter-spacing: 0.5px;
-        }
-
-        input, select {
-            width: 95%;
-            padding: 11px;
-            margin: 8px 0;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            outline: none;
-            background: #0f172a;
-            color: #e2e8f0;
-            transition: 0.2s;
-        }
-
-        input:focus, select:focus {
-            border: 1px solid #38bdf8;
-            box-shadow: 0 0 8px rgba(56,189,248,0.4);
-        }
-
-        button {
-            width: 98%;
-            padding: 13px;
-            margin-top: 15px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #2563eb, #38bdf8);
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 20px rgba(37,99,235,0.4);
-        }
-
-        a {
-            display: inline-block;
-            margin-top: 18px;
-            text-decoration: none;
-            font-weight: bold;
-            color: #38bdf8;
-        }
-
-        .emoji {
-            font-size: 20px;
-        }
-
-        .hint {
-            font-size: 12px;
-            color: #94a3b8;
-            text-align: left;
-            margin-bottom: 10px;
-        }
-    
-    </style>
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
+    <!-- HEADER -->
     <div class="header">
         <h1>Candidate Screening & Ranking System</h1>
         <p>Add New Candidate Details</p>
     </div>
 
-    <div class="container">
+    <!-- MAIN CARD -->
+    <div class="form-box">
 
-        <div class="form-box">
-            <h2><span class="emoji">➕</span> Add Candidate</h2>
+        <span class="badge">New Entry</span>
 
-            <form method="POST" id="addCandidateForm">
+        <h2>➕ Add Candidate</h2>
 
-                <div class="section-title">Basic Details</div>
-                <input type="text" name="name" placeholder="Full Name" required>
+        <form method="POST" id="addCandidateForm">
 
-                <div class="section-title">Academic Performance</div>
-                <input type="number" step="0.01" name="class10" placeholder="Class 10 %" required>
-                <input type="number" step="0.01" name="class12" placeholder="Class 12 %" required>
-                <input type="number" step="0.01" name="cgpa" placeholder="CGPA (0 - 10)" required>
+            <!-- BASIC -->
+            <h3>Basic Details</h3>
+            <input type="text" name="name" placeholder="Full Name" required>
 
-                <div class="section-title">Projects & Hackathons</div>
-                <input type="number" name="projects" placeholder="Number of Projects" required>
-                <input type="number" name="hackathons_count" placeholder="Hackathons Participated" required>
+            <!-- ACADEMICS -->
+            <h3>Academic Performance</h3>
+            <input type="number" step="0.01" name="class10" placeholder="Class 10 %" required>
+            <input type="number" step="0.01" name="class12" placeholder="Class 12 %" required>
+            <input type="number" step="0.01" name="cgpa" placeholder="CGPA (0 - 10)" required>
 
-                <select name="hackathon_position" required>
-                    <option value="none">Hackathon Position</option>
-                    <option value="participant">Participant</option>
-                    <option value="finalist">Finalist</option>
-                    <option value="runner-up">Runner-up</option>
-                    <option value="winner">Winner</option>
-                </select>
+            <!-- PROJECTS -->
+            <h3>Projects & Hackathons</h3>
+            <input type="number" name="projects" placeholder="Number of Projects" required>
+            <input type="number" name="hackathons_count" placeholder="Hackathons Participated" required>
 
-                <div class="section-title">Coding Profiles</div>
-                <input type="number" name="leetcode" placeholder="LeetCode Score" required>
-                <input type="number" name="codechef" placeholder="CodeChef Score" required>
-                <input type="number" name="hackerrank" placeholder="HackerRank Score" required>
+            <select name="hackathon_position" required>
+                <option value="">Select Hackathon Position</option>
+                <option value="participant">Participant</option>
+                <option value="finalist">Finalist</option>
+                <option value="runner-up">Runner-up</option>
+                <option value="winner">Winner</option>
+            </select>
 
-                <div class="section-title">Skills & Experience</div>
-                <input type="text" name="skills" placeholder="Skills (comma separated)" required>
-                <input type="text" name="experience" placeholder="Experience (e.g. 2 years or NA)" required>
+            <!-- CODING -->
+            <h3>Coding Profiles</h3>
+            <input type="number" name="leetcode" placeholder="LeetCode Score" required>
+            <input type="number" name="codechef" placeholder="CodeChef Score" required>
+            <input type="number" name="hackerrank" placeholder="HackerRank Score" required>
 
-                <button type="submit">🚀 Submit Candidate</button>
+            <!-- SKILLS -->
+            <h3>Skills & Experience</h3>
+            <input type="text" name="skills" placeholder="Skills (comma separated)" required>
+            <input type="text" name="experience" placeholder="Experience (e.g. 2 years or NA)" required>
 
-            </form>
-            <a href="/">⬅ Back to Dashboard</a>
-        </div>
+            <!-- SUBMIT -->
+            <button type="submit" class="btn">🚀 Submit Candidate</button>
+
+        </form>
+
+        <!-- BACK BUTTON -->
+        <a href="/" class="back-home-add">⬅ Back to Dashboard</a>
+
     </div>
 
-    <form action="/logout" method="GET">
-        <button class="auth-btn">Log Out</button>
-    </form>
+    <!-- LOGOUT -->
+    <div style="text-align:center; margin-top:20px;">
+        <form action="/logout" method="GET">
+            <button class="logout-btn">Log Out</button>
+        </form>
+    </div>
 
 </body>
 </html>
