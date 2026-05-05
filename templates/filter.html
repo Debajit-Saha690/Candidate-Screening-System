@@ -1,145 +1,71 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Filter Candidates</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #e2e8f0;
-            text-align: center;
-        }
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        .header {
-            background: #1e3a8a;
-            color: white;
-            padding: 22px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
-        }
-
-        .form-box {
-            width: 520px;
-            max-width: 92%;
-            margin: 35px auto;
-            background: rgba(30, 41, 59, 0.9);
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 1px solid #334155;
-            backdrop-filter: blur(6px);
-            transition: 0.3s;
-        }
-
-        .form-box:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-        }
-
-        h2 {
-            color: #38bdf8;
-            margin-bottom: 15px;
-        }
-
-        h4 {
-            color: #93c5fd;
-            margin-top: 18px;
-            text-align: left;
-        }
-
-        input, select {
-            padding: 11px;
-            margin: 8px 0;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            width: 95%;
-            background: #0f172a;
-            color: #e2e8f0;
-            outline: none;
-        }
-
-        input:focus, select:focus {
-            border: 1px solid #38bdf8;
-            box-shadow: 0 0 8px rgba(56,189,248,0.4);
-        }
-
-        button {
-            width: 98%;
-            padding: 13px;
-            margin-top: 15px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #2563eb, #38bdf8);
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 20px rgba(37,99,235,0.4);
-        }
-
-        a {
-            display: inline-block;
-            margin: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            color: #38bdf8;
-        }
-
-        .note {
-            font-size: 12px;
-            color: #94a3b8;
-            margin-bottom: 10px;
-        }
-
-    </style>
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
+<!-- HEADER -->
 <div class="header">
-    <h1>Candidate Screening System</h1>
+    <h1>Candidate Screening & Ranking System</h1>
+    <p>Filter Candidates</p>
 </div>
 
+<!-- FORM -->
 <div class="form-box">
-    <h2>Filter Candidates</h2>
+
+    <span class="badge">Smart Filter</span>
+
+    <h2>🎯 Filter Candidates</h2>
 
     <form method="POST" action="/filter">
 
-        <h4>Academic Criteria</h4>
-        <input type="number" step="0.01" name="min_class10" placeholder="Mininum Class 10 %" required>
-        <input type="number" step="0.01" name="min_class12" placeholder="Mininum Class 12 %" required>
+        <!-- ACADEMIC -->
+        <h3>Academic Criteria</h3>
+        <input type="number" step="0.01" name="min_class10" placeholder="Minimum Class 10 %" required>
+        <input type="number" step="0.01" name="min_class12" placeholder="Minimum Class 12 %" required>
         <input type="number" step="0.01" name="min_cgpa" placeholder="Minimum CGPA" required>
 
-        <h4>Skill & Experience Criteria</h4>
-        <input type="number" name="min_projects" placeholder="Mininum Projects" required>
 
+        <h3>💼 Skills & Experience Criteria</h3>
+        <input type="number" name="min_projects" placeholder="Minimum Projects" required>
         <input type="number" name="min_hackathons" placeholder="Minimum Hackathons" required>
+
         <select name="winner_required" required>
             <option value="no">Hackathon Winner Not Required</option>
             <option value="yes">Must Be Hackathon Winner</option>
         </select>
 
-        <input type="number" step="0.01" name="min_coding_score" placeholder="Mininum Coding Score" required>
+        <input type="number" step="0.01" name="min_coding_score" placeholder="Minimum Coding Score" required>
         <input type="text" name="skills" placeholder="Required Skills (e.g. python, sql)" required>
-        <input type="text" name="min_exp" placeholder="Mininum Experience (e.g. 2 years / NA)" required>
-        
-        <h4>Target Hiring Tier</h4>
+        <input type="text" name="min_exp" placeholder="Minimum Experience (e.g. 2 years / NA)" required>
+
+        <!-- COMPANY LEVEL -->
+        <h3>🏢 Target Hiring Tier</h3>
         <select name="company_level" required>
             <option value="" disabled selected>Select Company Tier</option>
-            <option value="easy">Service-Based Companies (e.g., TCS, Wipro, Infosys)</option>
-            <option value="medium">Mid-Level Product Companies (e.g., Capgemini, Cognizant)</option>
-            <option value="hard">Product-Based Companies(e.g., Google, Microsoft, Amazon)</option>
+            <option value="easy">Service-Based (TCS, Wipro, Infosys)</option>
+            <option value="medium">Mid-Level Product (Capgemini, Cognizant)</option>
+            <option value="hard">Top Product (Google, Microsoft, Amazon)</option>
         </select>
-        
-        <button type="submit">Filter Candidates</button>
+
+        <!-- SUBMIT -->
+        <button type="submit" class="btn">🚀 Apply Filter</button>
+
     </form>
-    <a href="/">⬅ Back to Dashboard</a>
+
 </div>
+
+<!-- BACK BUTTON -->
+<a href="/" class="back-home">⬅ Back to Dashboard</a>
+
 </body>
 </html>
