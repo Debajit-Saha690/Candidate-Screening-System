@@ -1,129 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Search Candidate</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #e2e8f0;
-            text-align: center;
-        }
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        .header {
-            background: #1e3a8a;
-            color: white;
-            padding: 22px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
-        }
-
-        .search-box {
-            width: 520px;
-            max-width: 92%;
-            margin: 35px auto;
-            background: rgba(30, 41, 59, 0.9);
-            padding: 22px;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-            border: 1px solid #334155;
-        }
-
-        input, select {
-            padding: 11px;
-            margin: 10px;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            width: 90%;
-            background: #0f172a;
-            color: #e2e8f0;
-        }
-
-        button {
-            padding: 12px;
-            width: 92%;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #2563eb, #38bdf8);
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .candidate {
-            border: 1px solid #334155;
-            border-radius: 14px;
-            padding: 18px;
-            margin: 20px auto;
-            width: 520px;
-            max-width: 92%;
-            background: rgba(30, 41, 59, 0.9);
-            text-align: left;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-        }
-
-        .candidate:hover {
-            transform: translateY(-4px);
-            border-color: #38bdf8;
-        }
-
-        hr {
-            border: 1px solid #334155;
-            margin: 10px 0;
-        }
-
-        .badge {
-            float: right;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .high {
-            background: #22c55e;
-            color: #0f172a;
-        }
-
-        .medium {
-            background: #facc15;
-            color: #0f172a;
-        }
-
-        .low {
-            background: #ef4444;
-            color: white;
-        }
-
-        .message {
-            color: #94a3b8;
-            margin-top: 20px;
-            font-weight: bold;
-        }
-
-        a {
-            display: inline-block;
-            margin: 25px;
-            color: #38bdf8;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-    </style>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
+<!-- HEADER -->
 <div class="header">
     <h1>Candidate Screening & Ranking System</h1>
+    <p>Search Candidates</p>
 </div>
 
 <!-- SEARCH BOX -->
-<div class="search-box">
-    <h2>Search Candidate</h2>
+<div class="form-box">
+
+    <span class="badge">Search</span>
+
+    <h2>🔍 Find Candidate</h2>
 
     <form method="POST">
+
         <select name="search_type" required>
             <option value="id">Search by ID</option>
             <option value="name">Search by Name</option>
@@ -131,13 +35,17 @@
 
         <input type="text" name="search_value" placeholder="Enter ID or Name" required>
 
-        <button type="submit">Search</button>
+        <button type="submit" class="btn">Search</button>
+
     </form>
+
 </div>
 
 <!-- MESSAGE -->
 {% if message %}
-    <p class="message">{{ message }}</p>
+    <div class="container">
+        <p class="no-data">{{ message }}</p>
+    </div>
 {% endif %}
 
 <!-- SINGLE RESULT -->
@@ -145,58 +53,38 @@
 
 <div class="candidate">
 
-    <h3>Candidate Profile</h3>
+    <span class="badge">ID: {{ result.id }}</span>
 
-    <b>ID:</b> {{ result.id }}<br>
-    <b>Name:</b> {{ result.name }}<br>
+    <h2>{{ result.name }}</h2>
 
-    <hr>
-
-    <b>📚 Academic Details</b><br>
+    <p><b>📚 Academics</b><br>
     Class 10: {{ result.class10 }}%<br>
     Class 12: {{ result.class12 }}%<br>
-    CGPA: {{ result.cgpa }}<br>
+    CGPA: {{ result.cgpa }}</p>
 
-    <hr>
-
-    <b>🏆 Projects & Achievements</b><br>
-
+    <p><b>🏆 Projects & Hackathons</b><br>
     Projects: {{ result.projects }}<br>
     Hackathons: {{ result.hackathons_count }}<br>
-    Hackathon Position: {{ result.hackathon_position | title }}<br>
+    Position: {{ result.hackathon_position | title }}</p>
 
-    <hr>
-
-    <b>💻 Coding Skills</b><br>
+    <p><b>💻 Coding</b><br>
     LeetCode: {{ result.leetcode }}<br>
     CodeChef: {{ result.codechef }}<br>
     HackerRank: {{ result.hackerrank }}<br>
-    Coding Average Score: {{ result.coding_avg }}<br>
+    Average: {{ result.coding_avg }}</p>
 
-    <hr>
+    <p><b>🧠 Skills & Experience</b><br>
+    Skills: {{ result.skills | default([]) | map('title') | join(", ") }}<br>
+    Experience: {{ result.experience_input }}</p>
 
-    <b>🧠 Skills:</b>
-    {{ result.skills | default([]) | map('title') | join(", ") }}<br>
-
-    <hr>
-
-    <b>Experience:</b> {{ result.experience_input }}<br>
-
-    <hr>
-
-    <b>Score Breakdown:</b><br>
+    <p><b>📊 Score Breakdown</b><br>
     Academic: {{ result.breakdown.academic }}<br>
     Coding: {{ result.breakdown.coding }}<br>
     Projects: {{ result.breakdown.projects }}<br>
     Hackathons: {{ result.breakdown.hackathons }}<br>
-    Experience: {{ result.breakdown.experience }}<br>
+    Experience: {{ result.breakdown.experience }}</p>
 
-    <hr>
-
-    <b>📊 Placement Score:</b>
-    <span style="font-size:18px; font-weight:bold; color:#38bdf8;">
-        {{ result.score }}
-    </span>
+    <h3>⭐ Placement Score: {{ result.score }}</h3>
 
 </div>
 
@@ -205,58 +93,46 @@
 <!-- MULTIPLE RESULTS -->
 {% if results %}
 
-<h3>Matching Candidates</h3>
+<div class="hero">
+    <h2>👥 Matching Candidates</h2>
+</div>
 
 {% for c in results %}
 
 <div class="candidate">
 
-    <b>ID:</b> {{ c.id }}<br>
-    <b>Name:</b> {{ c.name }}<br>
+    <span class="badge">ID: {{ c.id }}</span>
 
-    <hr>
+    <h2>{{ c.name }}</h2>
 
-    <b>CGPA:</b> {{ c.cgpa }}<br>
-    <b>Class 10:</b> {{ c.class10 }}%<br>
-    <b>Class 12:</b> {{ c.class12 }}%<br>
+    <p><b>Academics</b><br>
+    Class 10: {{ c.class10 }}%<br>
+    Class 12: {{ c.class12 }}%<br>
+    CGPA: {{ c.cgpa }}</p>
 
-    <hr>
+    <p><b>Projects & Hackathons</b><br>
+    Projects: {{ c.projects }}<br>
+    Hackathons: {{ c.hackathons_count }}<br>
+    Position: {{ c.hackathon_position | title }}</p>
 
-    <b>Projects:</b> {{ c.projects }}<br>
-    <b>Hackathons:</b> {{ c.hackathons_count }}<br>
-
-    <hr>
-
-    <b>Coding Skills</b><br>
+    <p><b>Coding</b><br>
     LeetCode: {{ c.leetcode }}<br>
     CodeChef: {{ c.codechef }}<br>
     HackerRank: {{ c.hackerrank }}<br>
-    Coding Average Score: {{ c.coding_avg }}<br>
+    Average: {{ c.coding_avg }}</p>
 
-    <hr>
+    <p><b>Skills & Experience</b><br>
+    Skills: {{ c.skills | default([]) | map('title') | join(", ") }}<br>
+    Experience: {{ c.experience_input }}</p>
 
-    <b>Skills:</b>
-    {{ c.skills | default([]) | map('title') | join(", ") }}<br>
-
-    <hr>
-
-    <b>Experience:</b> {{ c.experience_input }}<br>
-
-    <hr>
-
-    <b>Score Breakdown:</b><br>
+    <p><b>Score Breakdown</b><br>
     Academic: {{ c.breakdown.academic }}<br>
     Coding: {{ c.breakdown.coding }}<br>
     Projects: {{ c.breakdown.projects }}<br>
     Hackathons: {{ c.breakdown.hackathons }}<br>
-    Experience: {{ c.breakdown.experience }}<br>
+    Experience: {{ c.breakdown.experience }}</p>
 
-    <hr>
-
-    <b>Placement Score:</b>
-    <span style="font-weight:bold; color:#38bdf8;">
-        {{ c.score }}
-    </span>
+    <h3>Placement Score: {{ c.score }}</h3>
 
 </div>
 
@@ -264,7 +140,8 @@
 
 {% endif %}
 
-<a href="/">⬅ Back to Dashboard</a>
+<!-- BACK BUTTON -->
+<a href="/" class="back-home">⬅ Back to Dashboard</a>
 
 </body>
 </html>
