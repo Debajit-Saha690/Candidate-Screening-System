@@ -1,237 +1,83 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Filtered Results</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: #e2e8f0;
-            text-align: center;
-        }
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        .header {
-            background: #1e3a8a;
-            color: white;
-            padding: 22px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.4);
-        }
-
-        .report {
-            width: 520px;
-            max-width: 92%;
-            margin: 25px auto;
-            background: rgba(30, 41, 59, 0.9);
-            padding: 18px;
-            border-radius: 14px;
-            text-align: left;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
-            border: 1px solid #334155;
-        }
-
-        .chart-box {
-            margin: 20px auto;
-            width: 400px;
-            max-width: 90%;
-            height: 300px;
-        }
-
-        .card {
-            width: 520px;
-            max-width: 92%;
-            margin: 16px auto;
-            background: rgba(30, 41, 59, 0.9);
-            padding: 18px;
-            border-radius: 14px;
-            text-align: left;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            border: 1px solid #334155;
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: #38bdf8;
-        }
-
-        .selected {
-            border-left: 6px solid #22c55e;
-        }
-
-        .rejected {
-            border-left: 6px solid #ef4444;
-            opacity: 0.85;
-        }
-
-        .top {
-            border-left: 6px solid #facc15;
-            background: rgba(250, 204, 21, 0.08);
-        }
-
-        h2 {
-            margin-top: 25px;
-            color: #38bdf8;
-        }
-
-        .info {
-            font-size: 13px;
-            color: #cbd5e1;
-            margin-top: 10px;
-            line-height: 1.6;
-        }
-
-        a {
-            display: inline-block;
-            margin: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            color: #38bdf8;
-        }
-
-        .button-group {
-            margin: 30px auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        /* Base Button Style */
-        .btn {
-            padding: 12px 18px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 14px;
-            transition: 0.3s ease;
-            border: 1px solid transparent;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-        }
-
-        /* Selected Button */
-        .btn.primary {
-            background: #22c55e;
-            color: white;
-        }
-        .btn.primary:hover {
-            background: #16a34a;
-            transform: translateY(-3px);
-        }
-
-        /* Rejected Button */
-        .btn.danger {
-            background: #ef4444;
-            color: white;
-        }
-        .btn.danger:hover {
-            background: #dc2626;
-            transform: translateY(-3px);
-        }
-
-        /* Download Selected */
-        .btn.success {
-            background: #38bdf8;
-            color: #0f172a;
-        }
-        .btn.success:hover {
-            background: #0ea5e9;
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        /* Download Rejected */
-        .btn.warning {
-            background: #facc15;
-            color: #0f172a;
-        }
-        .btn.warning:hover {
-            background: #eab308;
-            transform: translateY(-3px);
-        }
-
-        /* Back Button */
-        .btn.back {
-            background: transparent;
-            border: 1px solid #38bdf8;
-            color: #38bdf8;
-        }
-        .btn.back:hover {
-            background: #38bdf8;
-            color: #0f172a;
-            transform: translateY(-3px);
-        }
-        .back-home {
-            display: block;
-            width: fit-content;
-            margin: 30px auto;
-            padding: 10px 16px;
-            border-radius: 10px;
-            border: 1px solid #38bdf8;
-            color: #38bdf8;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s ease;
-            text-align: center;
-        }
-
-        .back-home:hover {
-            background: #38bdf8;
-            color: #0f172a;
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(56,189,248,0.4);
-        }
-
-    </style>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
+<!-- HEADER -->
 <div class="header">
-    <h1>Filtered Candidate Results</h1>
+    <h1>Candidate Screening & Ranking System</h1>
+    <p>Filtered Results</p>
 </div>
 
 <!-- REPORT -->
-<h2>Screening Report</h2>
-<div class="report">
+<div class="container">
+
+    <span class="badge">Report</span>
+
+    <h2>📊 Screening Report</h2>
+
     <p><b>Total:</b> {{ report.total }}</p>
     <p><b>Selected:</b> {{ report.selected }}</p>
     <p><b>Rejected:</b> {{ report.rejected }}</p>
 
-    <hr>
-
     <p><b>Company Level:</b> {{ report.company_level }}</p>
-    <p><b>Minimum Score Applied:</b> {{ report.min_score }}</p>
+    <p><b>Minimum Score:</b> {{ report.min_score }}</p>
+
 </div>
 
-<!-- PIE CHART -->
-<h2>Selection Overview</h2>
-<div class="chart-box">
-    <canvas id="resultChart"></canvas>
+<!-- CHART -->
+<div class="container">
+    <h2>📈 Selection Overview</h2>
+    <div class="chart-container">
+        <canvas id="barChart"></canvas>
+    </div>
 </div>
 
 <!-- TOP 5 -->
-<h2>🏆 Top 5 Candidates</h2>
+<div class="hero">
+    <h2>🏆 Top 5 Candidates</h2>
+</div>
+
 {% for c in selected[:5] %}
-<div class="card top">
-    <b>Rank:</b> {{ c.rank }}<br>
-    <b>Name:</b> {{ c.name }}<br>
-    <b>Final Score:</b> {{ c.score }}<br>
-    <b>Skill Match:</b> {{ c.skill_match }}<br>
+<div class="candidate">
+    <span class="badge">Rank {{ c.rank }}</span>
+
+    <h2>{{ c.name }}</h2>
+
+    <p><b>Score:</b> {{ c.score }}</p>
+    <p><b>Skill Match:</b> {{ c.skill_match }}</p>
 </div>
 {% endfor %}
 
+<!-- ACTION BUTTONS -->
+<div class="container" style="text-align:center;">
 
-<a href="/selected" class="btn primary"> Selected Candidates</a>
-<a href="/rejected" class="btn danger"> Rejected Candidates</a><br>
-<!-- EXPORT -->
-<a href="/export_selected_csv" class="btn success">⬇ Download Selected CSV</a>
-<a href="/export_rejected_csv" class="btn warning">⬇ Download Rejected CSV</a><br>
+    <a href="/selected" class="btn">✅ View Selected Candidates</a>
+    <a href="/rejected" class="btn">❌ View Rejected Candidates</a>
 
+    <a href="/export_selected_csv" class="btn">⬇ Download Selected CSV</a>
+    <a href="/export_rejected_csv" class="btn">⬇ Download Rejected CSV</a>
+
+</div>
+
+<!-- BACK -->
 <a href="/" class="back-home">⬅ Back to Dashboard</a>
 
+
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -245,49 +91,77 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedPercent = total ? ((selected / total) * 100).toFixed(1) : 0;
     const rejectedPercent = total ? ((rejected / total) * 100).toFixed(1) : 0;
 
-    const ctx = document.getElementById("resultChart");
+    const ctx = document.getElementById("barChart");
 
     new Chart(ctx, {
-        type: "pie",
+        type: "bar",
         data: {
-            labels: [
-                `Selected (${selectedPercent}%)`,
-                `Rejected (${rejectedPercent}%)`
-            ],
+            labels: ["Selected", "Rejected"],
             datasets: [{
                 data: [selected, rejected],
-                backgroundColor: [
-                    "#facc15",             // YELLOW → Selected
-                    "#ef4444"              // RED → Rejected
-                ],
-                borderColor: "#0f172a",
-                borderWidth: 2
+                backgroundColor: ["#facc15", "#ef4444"],
+                borderRadius: 8
             }]
         },
+
         options: {
             responsive: true,
             maintainAspectRatio: false,
+             
+            layout: {
+                padding: {top: 30}
+            },
             plugins: {
                 legend: {
-                    labels: {
+                    display: false
+                },
+
+                datalabels: {
+                    color: "#e2e8f0",
+                    font: {
+                        size: 14,
+                        weight: "bold"
+                    },
+                    anchor: "end",
+                    align: "top",
+                    offset: 6,
+                    clip: false,
+                    formatter: function(value, context) {
+
+                        const percent = context.dataIndex === 0
+                            ? selectedPercent
+                            : rejectedPercent;
+
+                        return `${value} (${percent}%)`;
+                    }
+                }
+            },
+
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
                         color: "#e2e8f0"
+                    },
+                    grid: {
+                        color: "#334155"
                     }
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            let value = context.raw;
-                            let percent = total ? ((value / total) * 100).toFixed(1) : 0;
-                            return `${context.label}: ${value} (${percent}%)`;
-                        }
+                x: {
+                    ticks: {
+                        color: "#e2e8f0"
+                    },
+                    grid: {
+                        color: "#334155"
                     }
                 }
             }
-        }
+        },
+
+        plugins: [ChartDataLabels]
     });
 
 });
 </script>
-
 </body>
 </html>
