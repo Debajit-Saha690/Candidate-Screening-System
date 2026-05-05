@@ -26,7 +26,7 @@ This project is designed to simulate a real-world campus placement screening pro
   - Badges (Top Performer, Strong Candidate, etc.)
 - 🏷️ Smart Tags (e.g., Strong Academics, Hackathon Active)
 - 📈 **Visualization**
-  - Pie chart for selection vs rejection
+  - Bar Graph for selection vs rejection
 - 📁 Export results to CSV (Selected & Rejected separately)
 
 ---
