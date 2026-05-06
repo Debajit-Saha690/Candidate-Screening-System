@@ -94,39 +94,3 @@ This project helped me explore:
 
 This is a mini ATS built from scratch to simulate real placement workflows.  
 Open to feedback and improvements 🚀
-
----
-
-## Sreenshots
-
-### Home Page
-![Home](./static/images/Home.png)
-
----
-
-### Add Candidate Page
-Candidate data entry form used to store academic details, coding profiles, skills, and experience into the system database.
-![Add1](./static/images/Add1.png)
-![Add2](./static/images/Add2.png)
-
----
-
-### Filter Criteria Page
-Custom filtering interface allowing recruiters to set minimum eligibility criteria such as academics, coding score, skills, and experience level.
-![Filter1](./static/images/Filter1.png)
-![Filter2](./static/images/Filter2.png)
-
----
-
-### Filter Result Page
-Final screening output showing selected and rejected candidates based on applied filtering criteria and ranking system.
-![Filter_Rank1](./static/images/Filter_Rank1.png)
-Ranked list of top-performing candidates generated using a weighted scoring system based on academics, coding performance, projects, and experience.
-![Filter_Rank2](./static/images/Filter_Rank2.png)
-![Filter_Rank3](./static/images/Filter_Rank3.png)
-
----
-
-### Bar Graph
-Visual representation of selection vs rejection ratio using dynamic chart-based analytics for quick decision insights.
-![Bar_Graph](./static/images/Bar_Graph.png)
