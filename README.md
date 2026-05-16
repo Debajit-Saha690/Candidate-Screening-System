@@ -81,7 +81,7 @@ This project helped me explore:
 
 ---
 
-## 📷 Sample Output
+## Sample Output
 
 - Ranked candidate list  
 - Selection/rejection reasoning  
