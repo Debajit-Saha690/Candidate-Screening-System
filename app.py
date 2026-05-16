@@ -1,7 +1,5 @@
 import random
-from io import StringIO
 from flask import Response, request
-import csv
 from flask import Flask, render_template, request, redirect, session
 from db import get_connection
 
@@ -590,45 +588,6 @@ def filter_result_page():
         min_score=0)
 
 
-def generate_csv(data):
-    si = StringIO()
-    writer = csv.writer(si)
-
-    writer.writerow([
-        "Rank","Name","Score","Coding Avg",
-        "CGPA","Projects","Hackathons",
-        "Skills","Experience","Tags","Reason"
-    ])
-
-    for c in data:
-
-        # SKILLS HANDLING
-        skills = c.get("skills", [])
-        if isinstance(skills, str):
-            skills = [s.strip() for s in skills.split(",") if s.strip()]
-
-        # TAGS HANDLING
-        tags = c.get("tags", [])
-        if not isinstance(tags, list):
-            tags = []
-
-        writer.writerow([
-            c.get("rank"),
-            c.get("name"),
-            c.get("score"),
-            c.get("coding_avg"),
-            c.get("cgpa"),
-            c.get("projects"),
-            c.get("hackathons_count"),
-            ", ".join(skills),
-            c.get("exp_months", 0),
-            ", ".join(tags),
-            c.get("reason")
-        ])
-
-    return si.getvalue()
-
-
 @app.route("/selected")
 def selected_page():
 
@@ -660,37 +619,196 @@ def rejected_page():
         rejected=data,
         report=report)
 
-@app.route("/export_selected_csv")
-def export_selected_csv():
+
+# PDF EXPORT
+
+from reportlab.platypus import (
+    SimpleDocTemplate,
+    Table,
+    TableStyle,
+    Paragraph,
+    Spacer
+)
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import landscape, letter
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus.tables import Table
+from reportlab.lib.enums import TA_LEFT
+from reportlab.lib.styles import ParagraphStyle
+from io import BytesIO
+
+
+def generate_pdf(data, title_text):
+
+    buffer = BytesIO()
+
+    # LANDSCAPE PDF
+    pdf = SimpleDocTemplate(
+        buffer,
+        pagesize=landscape(letter),
+        leftMargin=15,
+        rightMargin=15,
+        topMargin=20,
+        bottomMargin=20
+    )
+
+    elements = []
+
+    styles = getSampleStyleSheet()
+
+    # SMALL TEXT STYLE
+    body_style = ParagraphStyle(
+        'body',
+        parent=styles['BodyText'],
+        fontSize=7,
+        leading=9,
+        alignment=TA_LEFT
+    )
+
+    # TITLE
+    title = Paragraph(title_text, styles["Title"])
+    elements.append(title)
+    elements.append(Spacer(1, 10))
+
+    # TABLE HEADER
+    table_data = [[
+        "Rank",
+        "Name",
+        "Score",
+        "Coding Avg",
+        "CGPA",
+        "Projects",
+        "Hackathons",
+        "Skills",
+        "Experience",
+        "Tags",
+        "Reason"
+    ]]
+
+    # TABLE ROWS
+    for c in data:
+
+        skills = c.get("skills", [])
+        if isinstance(skills, list):
+            skills = ", ".join(skills)
+
+        tags = c.get("tags", [])
+        if isinstance(tags, list):
+            tags = ", ".join(tags)
+
+        row = [
+            Paragraph(str(c.get("rank", "")), body_style),
+            Paragraph(str(c.get("name", "")), body_style),
+            Paragraph(str(c.get("score", "")), body_style),
+            Paragraph(str(c.get("coding_avg", "")), body_style),
+            Paragraph(str(c.get("cgpa", "")), body_style),
+            Paragraph(str(c.get("projects", "")), body_style),
+            Paragraph(str(c.get("hackathons_count", "")), body_style),
+            Paragraph(skills, body_style),
+            Paragraph(str(c.get("exp_months", 0)), body_style),
+            Paragraph(tags, body_style),
+            Paragraph(c.get("reason", ""), body_style)
+        ]
+
+        table_data.append(row)
+
+    # COLUMN WIDTHS
+    col_widths = [
+        30,   # Rank
+        60,   # Name
+        37,   # Score
+        53,   # Coding Avg
+        37,   # CGPA
+        40,   # Projects
+        54,   # Hackathons
+        90,  # Skills
+        52,   # Experience
+        100,  # Tags
+        180   # Reason
+    ]
+
+    # CREATE TABLE
+    table = Table(
+        table_data,
+        colWidths=col_widths,
+        repeatRows=1
+    )
+
+    # TABLE STYLE
+    table.setStyle(TableStyle([
+
+        # HEADER
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#2c3e50")),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, 0), 8),
+
+        # BODY
+        ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 1), (-1, -1), 7),
+
+        # GRID
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+
+        # ALIGNMENT
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+
+        # PADDING
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
+        ('TOPPADDING', (0, 1), (-1, -1), 4),
+        ('BOTTOMPADDING', (0, 1), (-1, -1), 4),
+
+        # ROW COLORS
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+
+    ]))
+
+    elements.append(table)
+
+    # BUILD PDF
+    pdf.build(elements)
+    buffer.seek(0)
+    return buffer
+
+@app.route("/export_selected_pdf")
+def export_selected_pdf():
 
     data = app.config.get("last_selected", [])
 
     if not data:
         return "No data available. Please apply filter first."
 
+    pdf_buffer = generate_pdf(data, "Selected Candidates Report")
+
     return Response(
-        generate_csv(data),
-        mimetype="text/csv",
-        headers={"Content-Disposition": "attachment; filename=selected_candidates.csv"}
+        pdf_buffer,
+        mimetype='application/pdf',
+        headers={
+            'Content-Disposition':
+            'attachment; filename=selected_candidates.pdf'
+        }
     )
 
-
-@app.route("/export_rejected_csv")
-def export_rejected_csv():
+@app.route("/export_rejected_pdf")
+def export_rejected_pdf():
 
     data = app.config.get("last_rejected", [])
 
     if not data:
         return "No data available. Please apply filter first."
 
-    return Response(
-        generate_csv(data),
-        mimetype="text/csv",
-        headers={"Content-Disposition": "attachment; filename=rejected_candidates.csv"}
-    )
+    pdf_buffer = generate_pdf(data, "Rejected Candidates Report")
 
+    return Response(
+        pdf_buffer,
+        mimetype='application/pdf',
+        headers={
+            'Content-Disposition':
+            'attachment; filename=rejected_candidates.pdf'
+        }
+    )
 
 # RUN APP
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
