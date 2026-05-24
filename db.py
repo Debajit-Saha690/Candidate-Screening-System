@@ -10,7 +10,7 @@ def get_connection():
 
     try:
         conn = mysql.connector.connect(
-            host="localhost",
+            host="########",
             user="####",          
             password="#####",          
             database="resume_system"
