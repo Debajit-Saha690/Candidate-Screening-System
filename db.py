@@ -1,19 +1,15 @@
+import os
 import mysql.connector
 from mysql.connector import Error
 
-
 def get_connection():
-    """
-    Creates and returns a MySQL database connection
-    for Candidate Screening & Ranking System (ATS).
-    """
-
     try:
         conn = mysql.connector.connect(
-            host="localhost",
-            user="root",          
-            password="Debajit@Saha1237890",          
-            database="resume_system"
+            host=os.getenv("MYSQLHOST"),
+            user=os.getenv("MYSQLUSER"),
+            password=os.getenv("MYSQLPASSWORD"),
+            database=os.getenv("MYSQLDATABASE"),
+            port=int(os.getenv("MYSQLPORT", 3306))
         )
 
         if conn.is_connected():
