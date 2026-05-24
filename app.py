@@ -270,7 +270,7 @@ def admin_login():
         username = request.form["username"]
         password = request.form["password"]
 
-        if username == "#admin#" and password == "######":
+        if username == "admin" and password == "admin@2k28":
             session["admin"] = True
 
             next_page = request.args.get("next")
