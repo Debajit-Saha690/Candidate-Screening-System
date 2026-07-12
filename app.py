@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, session
 from db import get_connection
 
 app = Flask(__name__)
-app.secret_key = "a9f8d2c1e7b4f6g3h5j8k2l9"
+app.secret_key = os.environ.get("SECRET_KEY", "development-secret-key")
 
 # EXPERIENCE CONVERTER
 
