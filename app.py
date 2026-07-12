@@ -342,7 +342,7 @@ def add_candidate():
             float(request.form["cgpa"]),
             int(request.form["projects"]),
             int(request.form["hackathons_count"]),
-            request.form["hackathon_position"],
+            request.form.get("hackathon_position") or "none",
             int(request.form["leetcode"]),
             int(request.form["codechef"]),
             int(request.form["hackerrank"]),
