@@ -9,7 +9,8 @@ def get_connection():
             user=os.getenv("MYSQLUSER"),
             password=os.getenv("MYSQLPASSWORD"),
             database=os.getenv("MYSQLDATABASE"),
-            port=int(os.getenv("MYSQLPORT", 3306))
+            port=int(os.getenv("MYSQLPORT", 4000)),
+            ssl_verify_cert=False
         )
 
         if conn.is_connected():
@@ -17,4 +18,4 @@ def get_connection():
 
     except Error as e:
         print("Database connection failed:", e)
-        raise e
+        return None
