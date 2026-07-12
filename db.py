@@ -17,4 +17,4 @@ def get_connection():
 
     except Error as e:
         print("Database connection failed:", e)
-        return None
+        raise e
